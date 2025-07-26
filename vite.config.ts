@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
-  root: ".", // Root directory is the current folder
+  root: ".", // Use current folder as root
   plugins: [react()],
   resolve: {
     alias: {
@@ -16,9 +16,5 @@ export default defineConfig({
   build: {
     outDir: "dist",
     emptyOutDir: true,
-  },
-  server: {
-    port: 3000,
-    open: true,
   },
 });
