@@ -1,34 +1,24 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// Use an async function for top-level await
-export default async function () {
-  const cartographerPlugin =
-    process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined
-      ? [(await import("@replit/vite-plugin-cartographer")).cartographer()]
-      : [];
-
-  return defineConfig({
-    plugins: [react(), runtimeErrorOverlay(), ...cartographerPlugin],
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "client", "src"),
-        "@shared": path.resolve(__dirname, "shared"),
-        "@assets": path.resolve(__dirname, "attached_assets"),
-      },
+export default defineConfig({
+  root: ".", // Root directory is the current folder
+  plugins: [react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "components"),
+      "@pages": path.resolve(__dirname, "pages"),
+      "@lib": path.resolve(__dirname, "lib"),
+      "@hooks": path.resolve(__dirname, "hooks"),
     },
-    root: ".",
-    build: {
-      outDir: path.resolve(__dirname, "dist/public"),
-      emptyOutDir: true,
-    },
-    server: {
-      fs: {
-        strict: true,
-        deny: ["**/.*"],
-      },
-    },
-  });
-}
+  },
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
+});
